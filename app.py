@@ -6,6 +6,7 @@ import requests
 from sqlalchemy.ext.mutable import MutableList
 from flask_cors import CORS
 from flask_socketio import SocketIO
+import time
 
 app = Flask(__name__)
 CORS(app)
@@ -39,7 +40,15 @@ class Location(db.Model):
 
 @app.route('/ping')
 def ping():
-    return 'live', 200
+    print("ping API triggered")
+    start = time.time()
+    try:
+        db.session.execute('SELECT 1')
+        duration = time.time() - start
+        print(f"ping DB check took {duration:.4f}s")
+        return 'pong', 200
+    except Exception as e:
+        return f'Error: {str(e)}', 500
 
 
 @app.route('/create_user', methods=['POST'])
