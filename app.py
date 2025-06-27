@@ -37,13 +37,17 @@ class Location(db.Model):
 
 @app.route('/create_user', methods=['POST'])
 def create_user():
+    print("create_user called")
     data = request.get_json()
     username = data.get('username')
+    print("create_user: username=" + username)
     password = data.get('password')
+    print("create_user: password=" + password)
 
     if User.query.filter_by(username=username).first():
         return jsonify({"message": "User already exists!"}), 400
 
+    print("create_user: creating user...")
     new_user = User(username=username, password=password)
     db.session.add(new_user)
     db.session.commit()
