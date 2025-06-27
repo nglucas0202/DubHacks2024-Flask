@@ -35,6 +35,13 @@ class Location(db.Model):
     names = db.Column(MutableList.as_mutable(db.JSON), nullable=False)  # ← KEY LINE
 
 
+# APIs
+
+@app.route('/ping')
+def ping():
+    return 'live', 200
+
+
 @app.route('/create_user', methods=['POST'])
 def create_user():
     print("create_user called")
